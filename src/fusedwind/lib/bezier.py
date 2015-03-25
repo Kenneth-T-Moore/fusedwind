@@ -41,7 +41,7 @@ class BezierCurve(Curve):
 
         points = self._compute(self.CPs)
         self._s = calculate_length(points)
-        self._s /= self._s[-1] 
+        self._s /= self._s[-1]
         self.initialize(points)
 
     # def _compute_dp(self):
@@ -62,8 +62,8 @@ class BezierCurve(Curve):
 
     def _compute(self, C):
 
-        points = np.zeros((self.ni, self.nd), dtype=type(C[0]))
-        self.t = np.linspace(0., 1., self.ni, dtype=type(C[0]))
+        points = np.zeros((self.ni, self.nd), dtype=C.dtype)
+        self.t = np.linspace(0., 1., self.ni, dtype=C.dtype)
         # control point iterator
         _n = xrange(C.shape[0])
 
@@ -228,12 +228,12 @@ class FitBezier(Component):
             self.CPs = np.zeros((self.nCPs,self.curve_in.nd))
             for i in range(self.curve_in.nd):
                 s = np.linspace(0., 1., self.nCPs)
-                self.CPs[:, i] = np.interp(s, np.asarray(self.curve_in.s, dtype=np.float64), 
+                self.CPs[:, i] = np.interp(s, np.asarray(self.curve_in.s, dtype=np.float64),
                                               np.asarray(self.curve_in.points[:,i], dtype=np.float64))
         else:
             self.nCPs = self.CPs.shape[0]
             if np.sum(self.CPs[:, 1]) == 0.:
-                self.CPs[:, 1] = np.interp(self.CPs[:, 0], np.asarray(self.curve_in.points[:, 0], dtype=np.float64), 
+                self.CPs[:, 1] = np.interp(self.CPs[:, 0], np.asarray(self.curve_in.points[:, 0], dtype=np.float64),
                                                           np.asarray(self.curve_in.points[:, 1], dtype=np.float64))
 
         # anchor first and last CP to start/end points of curve
